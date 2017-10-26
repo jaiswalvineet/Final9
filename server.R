@@ -1,4 +1,5 @@
 
+
 # This is the server logic for a Shiny web application.
 # You can find out more about building applications with Shiny here:
 #
@@ -10,30 +11,43 @@ library(shiny)
 # Load the raw data
 rawData <- read.csv("raw.csv", stringsAsFactors = F)
 
+#' Title
+#'
+#' @param input 
+#' @param output 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 shinyServer(function(input, output) {
-
-  output$distPlot <- renderPlot({
-
+    output$distPlot <- renderPlot({
     # generate bins based on input$bins from ui.R
     x    <- rawData$budget
     bins <- seq(min(x), max(x), length.out = input$bins + 1)
-
+    
     # draw the histogram with the specified number of bins
-    hist(x, breaks = bins, col = 'darkgray', border = 'white')
+    #hist(x,breaks = bins,col = 'darkgray',border = 'white')
     
     output$Table <- renderTable({
-        output<-data.frame(genres)
-        output
-    })
-
+      output <- data.frame(genres)})
+    
+    output$Genre <- renderUI({
+      selectInput("Genre", 
+                  "Choose a genre:", 
+                  append("Select", genres$name)) })
+    
   })
-
 })
 
 
-## table name  
-  genre <- raw$genres
-  genreList <- lapply(genre,function(x) fromJSON(x))
-  genreList <- genreList[sapply(genreList, function(x) as.numeric(dim(x)[1])) > 0]
-  genreList <- genreList[!sapply(genreList, is.null)]
-  genres <- unique(Reduce(union, genreList)) 
+
+## table genre
+genre <- raw$genres
+genreList <- lapply(genre, function(x)
+  fromJSON(x))
+genreList <-
+  genreList[sapply(genreList, function(x)
+    as.numeric(dim(x)[1])) > 0]
+genreList <- genreList[!sapply(genreList, is.null)]
+genres <- unique(Reduce(union, genreList)) 

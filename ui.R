@@ -25,18 +25,15 @@ shinyUI(fluidPage(
                   min = 0,
                   max = 380000000,
                   value = 100000),
-      selectInput("Genre", "Choose a genre:",
-                  list(`East Coast` = c("NY", "NJ", "CT"),
-                       `West Coast` = c("WA", "OR", "CA"),
-                       `Midwest` = c("MN", "WI", "IA"))
-      )
+      uiOutput("Genre")
+      
     ),
 
     # Show a plot of the generated distribution
     mainPanel(
       plotOutput("distPlot"),
       tabsetPanel(
-        tabPanel("Main",
+        tabPanel("Genre",
                  htmlOutput("header"),
                  tableOutput("Table"),
                  htmlOutput("Text")

@@ -31,7 +31,7 @@ shinyServer(function(input, output) {
 })
 
 
-## table name 
+## table name  
   genre <- raw$genres
   genreList <- lapply(genre,function(x) fromJSON(x))
   genreList <- genreList[sapply(genreList, function(x) as.numeric(dim(x)[1])) > 0]

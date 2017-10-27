@@ -27,27 +27,52 @@ shinyServer(function(input, output) {
     bins <- seq(min(x), max(x), length.out = input$bins + 1)
     
     # draw the histogram with the specified number of bins
-    #hist(x,breaks = bins,col = 'darkgray',border = 'white')
+    # hist(x,breaks = bins,col = 'darkgray',border = 'white')
     
     output$Table <- renderTable({
-      output <- data.frame(genres)})
+    output <- data.frame(genres)})
+    #output
+    #output$Table <- renderTable({
+     # output <- data.frame(keywords)})
     
     output$Genre <- renderUI({
       selectInput("Genre", 
                   "Choose a genre:", 
-                  append("Select", genres$name)) })
+                  append("Select", sort(genres$name))) })
+    
+    output$Language <- renderUI({
+      selectInput("Language",
+                  "Choose a language:",
+                  unique(raw$original_language), multiple = T ) })
+    
+    output$Country <- renderUI({
+      selectInput("Country",
+                  "Choose a Country:",
+                  sort(countries$name), multiple = T , selected = 'United States of America') })
     
   })
 })
 
 
 
-## table genre
+## Table Genre
 genre <- raw$genres
-genreList <- lapply(genre, function(x)
-  fromJSON(x))
-genreList <-
-  genreList[sapply(genreList, function(x)
-    as.numeric(dim(x)[1])) > 0]
+genreList <- lapply(genre, function(x) fromJSON(x))
+genreList <- genreList[sapply(genreList, function(x) as.numeric(dim(x)[1])) > 0]
 genreList <- genreList[!sapply(genreList, is.null)]
 genres <- unique(Reduce(union, genreList)) 
+
+
+## Table Keyword
+# keyword <- raw$keywords
+# keywordList <- lapply(keyword, function(x) fromJSON(x))
+# keywordList <- keywordList[sapply(keywordList, function(x) as.numeric(dim(x)[1])) > 0]
+# keywordList <- keywordList[!sapply(keywordList, is.null)]
+# keywords <- unique(Reduce(union, keywordList)) 
+
+## Table Country
+country <- raw$production_countries
+countryList <- lapply(country, function(x) fromJSON(x))
+countryList <- countryList[sapply(countryList, function(x) as.numeric(dim(x)[1])) > 0]
+countryList <- countryList[!sapply(countryList, is.null)]
+countries <- unique(Reduce(union, countryList)) 

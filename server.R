@@ -22,28 +22,19 @@ rawData <- read.csv("raw.csv", stringsAsFactors = F)
 #' @examples
 shinyServer(function(input, output) {
     output$distPlot <- renderPlot({
-    # generate bins based on input$bins from ui.R
-    x    <- rawData$budget
-    bins <- seq(min(x), max(x), length.out = input$bins + 1)
-    
-    # draw the histogram with the specified number of bins
-    # hist(x,breaks = bins,col = 'darkgray',border = 'white')
     
     output$Table <- renderTable({
     output <- data.frame(genres)})
-    #output
-    #output$Table <- renderTable({
-     # output <- data.frame(keywords)})
-    
+
     output$Genre <- renderUI({
       selectInput("Genre", 
                   "Choose a genre:", 
-                  append("Select", sort(genres$name))) })
+                  append("All", sort(genres$name))) })
     
     output$Language <- renderUI({
       selectInput("Language",
                   "Choose a language:",
-                  unique(raw$original_language), multiple = T ) })
+                  unique(raw$original_language), multiple = T, selected = 'en' ) })
     
     output$Country <- renderUI({
       selectInput("Country",

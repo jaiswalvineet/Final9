@@ -7,6 +7,8 @@
 #
 
 library(shiny)
+library(jsonlite)
+
 
 # Load the raw data
 rawData <- read.csv("raw.csv", stringsAsFactors = F)
@@ -47,11 +49,11 @@ shinyServer(function(input, output) {
 
 
 ## Table Genre
-genre <- raw$genres
+genre <- rawData$genres
 genreList <- lapply(genre, function(x) fromJSON(x))
 genreList <- genreList[sapply(genreList, function(x) as.numeric(dim(x)[1])) > 0]
 genreList <- genreList[!sapply(genreList, is.null)]
-genres <- unique(Reduce(union, genreList)) 
+genres <- unique(Reduce(function(...) merge(..., all=T), genreList)) 
 
 
 ## Table Keyword
@@ -62,8 +64,8 @@ genres <- unique(Reduce(union, genreList))
 # keywords <- unique(Reduce(union, keywordList)) 
 
 ## Table Country
-country <- raw$production_countries
+country <- rawData$production_countries
 countryList <- lapply(country, function(x) fromJSON(x))
 countryList <- countryList[sapply(countryList, function(x) as.numeric(dim(x)[1])) > 0]
 countryList <- countryList[!sapply(countryList, is.null)]
-countries <- unique(Reduce(union, countryList)) 
+countries <- unique(Reduce(function(...) merge(..., all=T), countryList)) 

@@ -87,14 +87,8 @@ shinyUI(fluidPage(
      
     ),
     # Show a plot of the generated distribution
-    mainPanel(plotOutput("distPlot"),
-              tabsetPanel(
-                tabPanel(
-                  "Genre",
-                  htmlOutput("header"),
-                  tableOutput("Table"),
-                  htmlOutput("Text")
-                )
-              ))
+    mainPanel(
+      plotOutput("basePlot")
+    )
   )
 ))

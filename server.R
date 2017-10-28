@@ -8,10 +8,14 @@
 
 library(shiny)
 library(jsonlite)
+#library(plotly)
+library(ggplot2)
 
 
 # Load the raw data
 rawData <- read.csv("raw.csv", stringsAsFactors = F)
+rawData <- na.omit(rawData)
+rawData$release_date <-  as.Date(rawData$release_date, "%Y-%m-%d")
 
 #' Title
 #'
@@ -23,28 +27,49 @@ rawData <- read.csv("raw.csv", stringsAsFactors = F)
 #'
 #' @examples
 shinyServer(function(input, output) {
-    output$distPlot <- renderPlot({
     
-    output$Table <- renderTable({
-    output <- data.frame(genres)})
+    
+    output$basePlot <- renderPlot({
+      
+      output$Table <- renderTable({
+        output <- data.frame(genres)})
+      
+      output$Genre <- renderUI({
+        selectInput("Genre", 
+                    "Choose a genre:", 
+                    append("All", sort(genres$name))) })
+      
+      output$Language <- renderUI({
+        selectInput("Language",
+                    "Choose a language:",
+                    unique(rawData$original_language), multiple = T, selected = 'en' ) })
+      
+      output$Country <- renderUI({
+        selectInput("Country",
+                    "Choose a Country:",
+                    sort(countries$name), multiple = T , selected = 'United States of America') })
+      
+      
+      Vote_Average <- input$Vote_Average
+      Vote_Count <- input$Vote_Count
+      minyear <- input$Year[1]
+      maxyear <- input$Year[2]
 
-    output$Genre <- renderUI({
-      selectInput("Genre", 
-                  "Choose a genre:", 
-                  append("All", sort(genres$name))) })
+      # build graph with ggplot syntax
+      p <- ggplot(rawData, aes(x = vote_average, y = vote_count,
+                                       color =  format(as.Date(release_date, "%d/%m/%Y"), '%Y'))) + geom_point()
+
+      plot(p)
+      # x    <- faithful[, 2]
+      # bins <- seq(min(x), max(x), length.out = input$bins + 1)
+      # 
+      # # draw the histogram with the specified number of bins
+      # hist(x, breaks = bins, col = 'darkgray', border = 'white')
+
+    })
     
-    output$Language <- renderUI({
-      selectInput("Language",
-                  "Choose a language:",
-                  unique(rawData$original_language), multiple = T, selected = 'en' ) })
-    
-    output$Country <- renderUI({
-      selectInput("Country",
-                  "Choose a Country:",
-                  sort(countries$name), multiple = T , selected = 'United States of America') })
     
   })
-})
 
 
 

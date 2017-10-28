@@ -8,7 +8,7 @@
 
 library(shiny)
 library(jsonlite)
-#library(plotly)
+library(plotly)
 library(ggplot2)
 
 
@@ -29,7 +29,7 @@ rawData$release_date <-  as.Date(rawData$release_date, "%Y-%m-%d")
 shinyServer(function(input, output) {
     
     
-    output$basePlot <- renderPlot({
+    output$basePlot <- renderPlotly({
       
       output$Table <- renderTable({
         output <- data.frame(genres)})
@@ -59,7 +59,7 @@ shinyServer(function(input, output) {
       p <- ggplot(rawData, aes(x = vote_average, y = vote_count,
                                        color =  format(as.Date(release_date, "%d/%m/%Y"), '%Y'))) + geom_point()
 
-      plot(p)
+      ggplotly(p)
       # x    <- faithful[, 2]
       # bins <- seq(min(x), max(x), length.out = input$bins + 1)
       # 

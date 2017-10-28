@@ -13,7 +13,7 @@ library(shiny)
 
 shinyUI(fluidPage(
   # Application title
-  titlePanel("Top 10 movies | Statistical analysis "),
+  titlePanel("TMDB Movie Statistical analysis with Plotly "),
   tags$h4("This application running on tmdb 5000 movie database") ,
   
   # Sidebar with a slider input for number of bins
@@ -88,7 +88,7 @@ shinyUI(fluidPage(
     ),
     # Show a plot of the generated distribution
     mainPanel(
-      plotOutput("basePlot")
+      plotlyOutput("basePlot")
     )
   )
 ))

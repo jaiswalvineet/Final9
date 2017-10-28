@@ -36,7 +36,7 @@ shinyServer(function(input, output) {
     output$Language <- renderUI({
       selectInput("Language",
                   "Choose a language:",
-                  unique(raw$original_language), multiple = T, selected = 'en' ) })
+                  unique(rawData$original_language), multiple = T, selected = 'en' ) })
     
     output$Country <- renderUI({
       selectInput("Country",

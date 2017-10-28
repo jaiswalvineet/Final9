@@ -8,7 +8,7 @@
 
 library(shiny)
 library(jsonlite)
-library(plotly)
+#library(plotly)
 library(ggplot2)
 library(dplyr)
 
@@ -32,7 +32,7 @@ rawData <- rawData %>% mutate(Year = format(as.Date(release_date, "%d/%m/%Y"), '
 shinyServer(function(input, output) {
     
     
-    output$basePlot <- renderPlotly({
+    output$basePlot <- renderPlot({
       
       # output$Table <- renderTable({
       #   output <- data.frame(genres)})
@@ -81,16 +81,17 @@ shinyServer(function(input, output) {
       formattedData$production_companies <- lapply(filterData$production_companies,function(x)fromJSON(x)$name)
       formattedData$production_countries <- lapply(filterData$production_countries,function(x)fromJSON(x)$name)
       formattedData$spoken_languages <- lapply(filterData$spoken_languages,function(x)fromJSON(x)$name)
-      formattedData<-formattedData[c("id","original_title","title","budget","revenue","genres","homepage","keywords","original_language","overview","popularity","production_companies","production_countries","release_date","runtime","spoken_languages","status","tagline","vote_average","vote_count","Year")]
+      formattedData<-formattedData[c("id","original_title","title","budget","revenue","genres","homepage","keywords","original_language","popularity","production_companies","production_countries","release_date","runtime","spoken_languages","status","tagline","vote_average","vote_count","Year")]
       output$formattedData <- renderDataTable(formattedData)
 
       # build graph with ggplot syntax
       p <- ggplot(filterData, aes(x = vote_average,
                                 y = vote_count,
-                                color = Year)) + geom_point() + labs(title = "Movie database statistical analysis based on input", x =
+                                color = Year)) + geom_point() + labs(title = "Vote count and their average with respect of years", x =
                                                                        "Vote Average", y = "Vote Count") + scale_color_discrete(name = ' Release Year')
       
-      ggplotly(p) 
+      # ggplotly(p)
+      plot(p) 
       
     })
     output$hover <- renderPrint({

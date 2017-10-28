@@ -1,0 +1,58 @@
+TMDB's Kaggle movie data Statistical analysis
+========================================================
+author: Vineet Jaiswal
+date: 28th October 2017
+autosize: true
+This application is a  movie data analysis, currently I am taking input from front end filters, do the process on server side code and create a ggplot graph and table as output
+
+This application can extend a lot and we can show a lot from input data
+
+From where I got the data 
+========================================================
+
+I got the data from Kaggle site 
+<https://www.kaggle.com/tmdb/tmdb-movie-metadata> 
+
+Specification of data 
+
+- Columns 
+```{r}
+rawData <- read.csv("raw.csv", stringsAsFactors = F)
+colnames(rawData)
+```
+
+- Special thing of data : It has multiple columns with JSON values
+```{r}
+rawData$genres[1]
+```
+
+
+Server.R
+========================================================
+GIT hub Code Path 
+<https://github.com/jaiswalvineet/Final9/blob/master/server.R>
+
+- Load, Clean and format data 
+- Convert JSON to data frame for genre, keyword etc
+- Take input(slider) from front end and pass to server side
+- Create GGPlot graph (initially I have created plotly but it is not working on free version of shinyapp)
+- Show all the filtered data in form of table below the graph
+
+ui.R
+========================================================
+GIT hub Code Path 
+<https://github.com/jaiswalvineet/Final9/blob/master/ui.R>
+
+- Define all the controls 
+- Bind the controls with Values
+- Plot the graph 
+- Show the table
+- Search the data inside table
+
+Public site : ShinyApp
+========================================================
+App Path
+<https://vineet.shinyapps.io/final9/>
+
+
+![Server Image ](Capture.PNG)

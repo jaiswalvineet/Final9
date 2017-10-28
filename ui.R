@@ -13,7 +13,7 @@ library(shiny)
 
 shinyUI(fluidPage(
   # Application title
-  titlePanel("TMDB Movie Statistical analysis with Plotly "),
+  titlePanel("TMDB's Kaggle movie data Statistical analysis "),
   tags$h4("This application running on tmdb 5000 movie database") ,
   tags$a(href="https://www.kaggle.com/tmdb/tmdb-movie-metadata", "The database link from Kaggle"),
   # Sidebar with a slider input for number of bins
@@ -89,8 +89,9 @@ shinyUI(fluidPage(
     ),
     # Show a plot of the generated distribution
     mainPanel(
-       plotlyOutput("basePlot")
-      ,verbatimTextOutput("hover")
+       #plotlyOutput("basePlot")
+      plotOutput("basePlot")
+      #,verbatimTextOutput("hover")
       ,span("Number of movies filtered:",textOutput("n_movies"))
       ,dataTableOutput('formattedData')
       

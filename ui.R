@@ -15,22 +15,22 @@ shinyUI(fluidPage(
   # Application title
   titlePanel("TMDB Movie Statistical analysis with Plotly "),
   tags$h4("This application running on tmdb 5000 movie database") ,
-  
+  tags$a(href="https://www.kaggle.com/tmdb/tmdb-movie-metadata", "The database link from Kaggle"),
   # Sidebar with a slider input for number of bins
   sidebarLayout(
 
     sidebarPanel(
-      tags$h3("Axis"),
-      selectInput("xvar", "X-axis variable",axis_vars , selected = "Vote_Average"),
-      selectInput("yvar", "Y-axis variable",axis_vars , selected = "Vote_Count"),
-      tags$small(paste0(" Graph based on below mentioned filters ",
-                        " You can change the filter as per your need  "
-      )),
+      # tags$h3("Axis"),
+      # selectInput("xvar", "X-axis variable",axis_vars , selected = "Vote_Average"),
+      # selectInput("yvar", "Y-axis variable",axis_vars , selected = "Vote_Count"),
+      # tags$small(paste0(" Graph based on below mentioned filters ",
+      #                   " You can change the filter as per your need  "
+      # )),
       tags$h3("Filters"),
-      textInput("Keyword", "Anything you can think about the movie like keyword, star,director etc"),
-      uiOutput("Genre"),
-      uiOutput("Country"),
-      uiOutput("Language"),
+      # textInput("Keyword", "Anything you can think about the movie like keyword, star,director etc"),
+      # uiOutput("Genre"),
+      # uiOutput("Country"),
+      # uiOutput("Language"),
       sliderInput(
         "Vote_Average",
         "Select the vote average:",
@@ -49,47 +49,49 @@ shinyUI(fluidPage(
         "Year",
         "Year released:", 
         1910, 
-        2014,  
-        value = c(1980, 2014)),
+        2020,  
+        value = c(1990, 2020)),
       sliderInput(
         "Popularity",
         "Select the popularity:",
         min = 0,
         max = 1000,
         value = 1000
-      ),
-      sliderInput(
-        "Budget",
-        "Select the budget:",
-        min = 0,
-        max = 500000000,
-        value = 5000000000
-      ),
-      sliderInput(
-        "Revenue",
-        "Select the revenue:",
-        min = 0,
-        max = 1000000000,
-        value = 1000000000
-      ),
-      sliderInput(
-        "Runtime",
-        "Select the runtime:",
-        min = 0,
-        max = 500,
-        value = 500
-      ),
-      selectInput(
-        "Status",
-         "Choose a status:",
-         as.list(c('Released', 'Post Production', 'Rumored')), selected = 'Released'
-        )
-     
+      )
+      # ,
+      # sliderInput(
+      #   "Budget",
+      #   "Select the budget:",
+      #   min = 0,
+      #   max = 500000000,
+      #   value = 5000000000
+      # ),
+      # sliderInput(
+      #   "Revenue",
+      #   "Select the revenue:",
+      #   min = 0,
+      #   max = 1000000000,
+      #   value = 1000000000
+      # ),
+      # sliderInput(
+      #   "Runtime",
+      #   "Select the runtime:",
+      #   min = 0,
+      #   max = 500,
+      #   value = 500
+      # ),
+      # selectInput(
+      #   "Status",
+      #    "Choose a status:",
+      #    as.list(c('Released', 'Post Production', 'Rumored')), selected = 'Released'
+      #   )
+      # 
     ),
     # Show a plot of the generated distribution
     mainPanel(
        plotlyOutput("basePlot")
       ,verbatimTextOutput("hover")
+      ,span("Number of movies selected:",textOutput("n_movies"))
       ,dataTableOutput('formattedData')
       
     )

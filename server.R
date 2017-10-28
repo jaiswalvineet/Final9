@@ -57,17 +57,23 @@ shinyServer(function(input, output) {
       Vote_Count <- input$Vote_Count
       minyear <- input$Year[1]
       maxyear <- input$Year[2]
+      
+      # data for filer 
+      filterData <- rawData[1:5,]
 
       # build graph with ggplot syntax
-      p <- ggplot(rawData, aes(x = vote_average,
+      p <- ggplot(filterData, aes(x = vote_average,
                                 y = vote_count,
                                 color = Year)) + geom_point() + labs(title = "Movie database statistical analysis based on input", x =
                                                                        "Vote Average", y = "Vote Count") + scale_color_discrete(name = ' Release Year')
       
-      ggplotly(p)
-
+      ggplotly(p) 
+      
     })
-    
+    output$hover <- renderPrint({
+      d <- event_data("plotly_hover")
+      if (is.null(d)) "Hover events appear here (unhover to clear)" else d
+    })
     
   })
 

@@ -62,7 +62,16 @@ shinyServer(function(input, output) {
       maxPopularity <- input$Popularity[2]
       
       # data for filer 
-      filterData <- rawData %>% filter(Year >= minyear, Year<=maxyear)%>% arrange(Year)
+      filterData <- rawData %>% filter(
+        Year >= minyear,
+        Year<=maxyear,
+        vote_count >= minVote_Count,
+        vote_count<=maxVote_Count,
+        vote_average >= minVote_Average,
+        vote_average<=maxVote_Average,
+        popularity >= minPopularity,
+        popularity<=maxPopularity
+        )%>% arrange(Year)
       
       output$n_movies <- renderText({nrow(filterData)})
 

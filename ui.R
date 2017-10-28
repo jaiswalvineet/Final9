@@ -36,27 +36,27 @@ shinyUI(fluidPage(
         "Select the vote average:",
         min = 0,
         max = 10,
-        value = 10
+        value = c(0,10)
       ),
       sliderInput(
         "Vote_Count",
         "Select the vote count:",
         min = 0,
         max = 15000,
-        value = 15000
+        value = c(0,15000)
       ),
       sliderInput(
         "Year",
         "Year released:", 
         1910, 
         2020,  
-        value = c(1990, 2020)),
+        value = c(2005, 2017)),
       sliderInput(
         "Popularity",
         "Select the popularity:",
         min = 0,
         max = 1000,
-        value = 1000
+        value = c(0,1000)
       )
       # ,
       # sliderInput(
@@ -91,7 +91,7 @@ shinyUI(fluidPage(
     mainPanel(
        plotlyOutput("basePlot")
       ,verbatimTextOutput("hover")
-      ,span("Number of movies selected:",textOutput("n_movies"))
+      ,span("Number of movies filtered:",textOutput("n_movies"))
       ,dataTableOutput('formattedData')
       
     )

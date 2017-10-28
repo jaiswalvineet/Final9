@@ -10,12 +10,15 @@ library(shiny)
 library(jsonlite)
 library(plotly)
 library(ggplot2)
+library(dplyr)
 
 
 # Load the raw data
 rawData <- read.csv("raw.csv", stringsAsFactors = F)
 rawData <- na.omit(rawData)
+rawData <- anti_join(rawData, subset(rawData, rawData$release_date==""))
 rawData$release_date <-  as.Date(rawData$release_date, "%Y-%m-%d")
+rawData <- rawData %>% mutate(Year = format(as.Date(release_date, "%d/%m/%Y"), '%Y'))
 
 #' Title
 #'
@@ -56,21 +59,17 @@ shinyServer(function(input, output) {
       maxyear <- input$Year[2]
 
       # build graph with ggplot syntax
-      p <- ggplot(rawData, aes(x = vote_average, y = vote_count,
-                                       color =  format(as.Date(release_date, "%d/%m/%Y"), '%Y'))) + geom_point()
-
+      p <- ggplot(rawData, aes(x = vote_average,
+                                y = vote_count,
+                                color = Year)) + geom_point() + labs(title = "Movie database statistical analysis based on input", x =
+                                                                       "Vote Average", y = "Vote Count") + scale_color_discrete(name = ' Release Year')
+      
       ggplotly(p)
-      # x    <- faithful[, 2]
-      # bins <- seq(min(x), max(x), length.out = input$bins + 1)
-      # 
-      # # draw the histogram with the specified number of bins
-      # hist(x, breaks = bins, col = 'darkgray', border = 'white')
 
     })
     
     
   })
-
 
 
 ## Table Genre

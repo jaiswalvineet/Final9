@@ -89,8 +89,9 @@ shinyUI(fluidPage(
     # Show a plot of the generated distribution
     mainPanel(
        plotlyOutput("basePlot")
-      ,
-      verbatimTextOutput("hover")
+      ,verbatimTextOutput("hover")
+      ,dataTableOutput('formattedData')
+      
     )
   )
 ))

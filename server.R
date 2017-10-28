@@ -75,6 +75,15 @@ shinyServer(function(input, output) {
       if (is.null(d)) "Hover events appear here (unhover to clear)" else d
     })
     
+    formattedData <-  filterData
+    formattedData$genres <- lapply(filterData$genres,function(x)fromJSON(x)$name)
+    formattedData$keywords <- lapply(filterData$keywords,function(x)fromJSON(x)$name)
+    formattedData$production_companies <- lapply(filterData$production_companies,function(x)fromJSON(x)$name)
+    formattedData$production_countries <- lapply(filterData$production_countries,function(x)fromJSON(x)$name)
+    formattedData$spoken_languages <- lapply(filterData$spoken_languages,function(x)fromJSON(x)$name)
+    formattedData<-formattedData[c("id","original_title","title","budget","revenue","genres","homepage","keywords","original_language","overview","popularity","production_companies","production_countries","release_date","runtime","spoken_languages","status","tagline","vote_average","vote_count","Year")]
+    output$formattedData <- renderDataTable(formattedData)
+    
   })
 
 
@@ -87,11 +96,13 @@ genres <- unique(Reduce(function(...) merge(..., all=T), genreList))
 
 
 ## Table Keyword
-# keyword <- raw$keywords
-# keywordList <- lapply(keyword, function(x) fromJSON(x))
-# keywordList <- keywordList[sapply(keywordList, function(x) as.numeric(dim(x)[1])) > 0]
-# keywordList <- keywordList[!sapply(keywordList, is.null)]
-# keywords <- unique(Reduce(union, keywordList)) 
+GetNames <- function(x){
+name <- x
+nameList <- lapply(name, function(x) fromJSON(x))
+nameList <- nameList[sapply(nameList, function(x) as.numeric(dim(x)[1])) > 0]
+nameList <- nameList[!sapply(nameList, is.null)]
+return ((unique(Reduce(function(...) merge(..., all=T), nameList))))$name
+}
 
 ## Table Country
 country <- rawData$production_countries
